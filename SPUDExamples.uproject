@@ -1,0 +1,13 @@
+{
+	"FileVersion": 3,
+	"EngineAssociation": "4.25",
+	"Category": "",
+	"Description": "",
+	"Modules": [
+		{
+			"Name": "SPUDExamples",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		}
+	]
+}

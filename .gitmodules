@@ -1,0 +1,3 @@
+[submodule "Plugins/SPUD"]
+	path = Plugins/SPUD
+url=https://github.com/sinbad/SPUD.git

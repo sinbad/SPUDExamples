@@ -103,6 +103,7 @@ Content/**/*.fbx
 Content/**/*.exr
 Content/**/*.mp3
 Content/**/*.wav
+Content/**/*.ogg
 Content/**/*.sbsar
 **/.autosave/*
 *.painter_lock

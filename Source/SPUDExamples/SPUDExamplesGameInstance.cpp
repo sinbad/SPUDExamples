@@ -11,7 +11,7 @@ void USPUDExamplesGameInstance::Init()
 	// Because it's a global object and not in the scene, it won't be discovered by implementing ISpudObject
 	// So we tell the system about this object explicitly. You can do this with any UObject.
 	// We use a hardcoded name for simplicity since this is a singleton. That way we don't have to rely on
-	// a generated FName, or add our own SpueGuid property, to otherwise identify it.
+	// a generated FName, or add our own SpudGuid property, to otherwise identify it.
 	GetSpudSubsystem(GetWorld())->AddPersistentGlobalObjectWithName(this, "ExampleGameInstance");	
 	
 }

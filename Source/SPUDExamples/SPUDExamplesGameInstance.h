@@ -5,6 +5,7 @@
 #include "Engine/GameInstance.h"
 #include "SPUDExamplesGameInstance.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnScoreChanged, int, NewScore);
 UCLASS()
 class SPUDEXAMPLES_API USPUDExamplesGameInstance : public UGameInstance
 {
@@ -15,10 +16,16 @@ protected:
 	/// Note that we DON'T need to implement ISpudObject in this case because this object
 	/// is not an Actor that needs to be discovered in the world.
 	/// As a Global Object, we'll sub it to persistence manually
-	UPROPERTY(BlueprintReadWrite, SaveGame)
+	UPROPERTY(BlueprintReadOnly, SaveGame)
 	int Score;
 
 
 public:
 	virtual void Init() override;
+
+	UPROPERTY(BlueprintAssignable)
+	FOnScoreChanged OnScoreChanged;
+
+	UFUNCTION(BlueprintCallable)
+	void AddScore(int Val);
 };

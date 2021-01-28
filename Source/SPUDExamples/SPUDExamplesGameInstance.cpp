@@ -15,3 +15,9 @@ void USPUDExamplesGameInstance::Init()
 	GetSpudSubsystem(GetWorld())->AddPersistentGlobalObjectWithName(this, "ExampleGameInstance");	
 	
 }
+
+void USPUDExamplesGameInstance::AddScore(int Val)
+{
+	Score += Val;
+	OnScoreChanged.Broadcast(Score);
+}

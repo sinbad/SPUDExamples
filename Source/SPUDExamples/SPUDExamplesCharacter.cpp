@@ -11,6 +11,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "MotionControllerComponent.h"
 #include "XRMotionControllerBase.h" // for FXRMotionControllerBase::RightHandSourceId
+#include "GameFramework/CharacterMovementComponent.h"
 
 DEFINE_LOG_CATEGORY_STATIC(LogFPChar, Warning, All);
 
@@ -103,6 +104,9 @@ void ASPUDExamplesCharacter::BeginPlay()
 		VR_Gun->SetHiddenInGame(true, true);
 		Mesh1P->SetHiddenInGame(false, true);
 	}
+
+	// Ensure we don't fall through the level waiting for streaming to happen
+	BeginWaitingForStreaming();
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -297,4 +301,61 @@ bool ASPUDExamplesCharacter::EnableTouchscreenMovement(class UInputComponent* Pl
 	}
 	
 	return false;
+}
+
+bool ASPUDExamplesCharacter::TeleportTo(const FVector& DestLocation, const FRotator& DestRotation, bool bIsATest,
+	bool bNoCheck)
+{
+	// Streaming-safe implementation; level streaming may lag slightly so wait until we have solid ground under us
+	bool Ret = Super::TeleportTo(DestLocation, DestRotation, bIsATest, bNoCheck);
+
+	if (!bIsATest)
+	{
+		BeginWaitingForStreaming();
+	}
+	return Ret;
+}
+
+bool ASPUDExamplesCharacter::IsMoveInputIgnored() const
+{
+	// Don't allow movement until streaming is ready
+	return Super::IsMoveInputIgnored() || bIsWaitingForStreaming;
+}
+
+void ASPUDExamplesCharacter::Tick(float DeltaSeconds)
+{
+	Super::Tick(DeltaSeconds);
+
+	if (bIsWaitingForStreaming)
+		CheckStreamingOK();
+}
+
+void ASPUDExamplesCharacter::BeginWaitingForStreaming()
+{
+	// Just after we've been spawned, or just after teleport, the level around us might not be streamed in yet
+	bIsWaitingForStreaming = true;
+	if (UCharacterMovementComponent* MoveComp = Cast<UCharacterMovementComponent>(GetMovementComponent()))
+	{
+		MoveComp->GravityScale = 0;			
+	}
+}
+
+void ASPUDExamplesCharacter::CheckStreamingOK()
+{
+	UE_LOG(LogTemp, Error, TEXT("CheckStreamingOK"));
+	FHitResult OutHit;
+	TArray<AActor*> ToIgnore;
+	if (UKismetSystemLibrary::SphereTraceSingle(GetWorld(),
+        GetActorLocation(), GetActorLocation() + FVector::DownVector * 200,
+        30, UEngineTypes::ConvertToTraceType(ECC_WorldStatic),
+        false, ToIgnore, EDrawDebugTrace::None, OutHit, true))
+	{
+		bIsWaitingForStreaming = false;
+		if (UCharacterMovementComponent* MoveComp = Cast<UCharacterMovementComponent>(GetMovementComponent()))
+		{
+			MoveComp->GravityScale = 1;			
+			UE_LOG(LogTemp, Error, TEXT("Enabled gravity"));
+		}
+		
+	}
 }

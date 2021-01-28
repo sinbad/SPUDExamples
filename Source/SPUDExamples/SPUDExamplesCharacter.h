@@ -84,8 +84,11 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 	uint32 bUsingMotionControllers : 1;
 
+	/// Whether gravity and movement are currently disabled while the level streams in around us
+	UPROPERTY(BlueprintReadOnly)
+	bool bIsWaitingForStreaming;
+
 protected:
-	
 	/** Fires a projectile. */
 	void OnFire();
 
@@ -136,11 +139,20 @@ protected:
 	 */
 	bool EnableTouchscreenMovement(UInputComponent* InputComponent);
 
+	void BeginWaitingForStreaming();
+	void CheckStreamingOK();
+
 public:
 	/** Returns Mesh1P subobject **/
 	FORCEINLINE class USkeletalMeshComponent* GetMesh1P() const { return Mesh1P; }
 	/** Returns FirstPersonCameraComponent subobject **/
 	FORCEINLINE class UCameraComponent* GetFirstPersonCameraComponent() const { return FirstPersonCameraComponent; }
 
+
+	// We override teleportation and move inpur to be streaming-safe
+	virtual bool TeleportTo(const FVector& DestLocation, const FRotator& DestRotation, bool bIsATest,
+		bool bNoCheck) override;
+	virtual bool IsMoveInputIgnored() const override;
+	virtual void Tick(float DeltaSeconds) override;
 };
 

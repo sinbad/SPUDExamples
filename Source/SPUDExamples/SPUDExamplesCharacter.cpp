@@ -342,7 +342,6 @@ void ASPUDExamplesCharacter::BeginWaitingForStreaming()
 
 void ASPUDExamplesCharacter::CheckStreamingOK()
 {
-	UE_LOG(LogTemp, Error, TEXT("CheckStreamingOK"));
 	FHitResult OutHit;
 	TArray<AActor*> ToIgnore;
 	if (UKismetSystemLibrary::SphereTraceSingle(GetWorld(),
@@ -354,7 +353,6 @@ void ASPUDExamplesCharacter::CheckStreamingOK()
 		if (UCharacterMovementComponent* MoveComp = Cast<UCharacterMovementComponent>(GetMovementComponent()))
 		{
 			MoveComp->GravityScale = 1;			
-			UE_LOG(LogTemp, Error, TEXT("Enabled gravity"));
 		}
 		
 	}

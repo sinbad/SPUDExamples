@@ -330,6 +330,12 @@ void ASPUDExamplesCharacter::Tick(float DeltaSeconds)
 		CheckStreamingOK();
 }
 
+void ASPUDExamplesCharacter::SpudPostRestore_Implementation(const USpudState* State)
+{
+	// After we've loaded, make sure we wait for streamed levels before starting
+	BeginWaitingForStreaming();
+}
+
 void ASPUDExamplesCharacter::BeginWaitingForStreaming()
 {
 	// Just after we've been spawned, or just after teleport, the level around us might not be streamed in yet

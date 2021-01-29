@@ -13,7 +13,7 @@ class UInputComponent;
 /// Here's an example of using one of the SPUD convenience base classes to do things for you
 /// You could also just implement ISpudObject as well to make this character persistent.
 UCLASS(config=Game)
-class ASPUDExamplesCharacter : public ASpudCharacterBase
+class ASPUDExamplesCharacter : public ASpudCharacterBase, public ISpudObjectCallback
 {
 	GENERATED_BODY()
 
@@ -154,5 +154,7 @@ public:
 		bool bNoCheck) override;
 	virtual bool IsMoveInputIgnored() const override;
 	virtual void Tick(float DeltaSeconds) override;
+
+	virtual void SpudPostRestore_Implementation(const USpudState* State) override;
 };
 

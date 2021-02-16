@@ -14,4 +14,7 @@ ASPUDExamplesGameMode::ASPUDExamplesGameMode()
 
 	// use our custom HUD class
 	HUDClass = ASPUDExamplesHUD::StaticClass();
+
+	// Use seamless travel for ServerTravel for testing (different sequence)
+	bUseSeamlessTravel = true;
 }

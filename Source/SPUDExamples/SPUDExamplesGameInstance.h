@@ -17,8 +17,10 @@ protected:
 	/// is not an Actor that needs to be discovered in the world.
 	/// As a Global Object, we'll sub it to persistence manually
 	UPROPERTY(BlueprintReadOnly, SaveGame)
-	int Score;
+	int Score = 0;
 
+	UPROPERTY(BlueprintReadOnly, SaveGame)
+	int BombsDestroyed = 0;
 
 public:
 	virtual void Init() override;
@@ -28,4 +30,8 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void AddScore(int Val);
+
+	UFUNCTION(BlueprintCallable)
+    void NotifyBombDestroyed();
+
 };

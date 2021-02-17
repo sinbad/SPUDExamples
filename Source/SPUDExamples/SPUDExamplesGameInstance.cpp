@@ -21,3 +21,8 @@ void USPUDExamplesGameInstance::AddScore(int Val)
 	Score += Val;
 	OnScoreChanged.Broadcast(Score);
 }
+
+void USPUDExamplesGameInstance::NotifyBombDestroyed()
+{
+	++BombsDestroyed;
+}

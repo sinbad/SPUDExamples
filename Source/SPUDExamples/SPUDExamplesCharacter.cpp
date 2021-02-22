@@ -350,6 +350,7 @@ void ASPUDExamplesCharacter::CheckStreamingOK()
 {
 	FHitResult OutHit;
 	TArray<AActor*> ToIgnore;
+	ToIgnore.Add(this);
 	if (UKismetSystemLibrary::SphereTraceSingle(GetWorld(),
         GetActorLocation(), GetActorLocation() + FVector::DownVector * 200,
         30, UEngineTypes::ConvertToTraceType(ECC_WorldStatic),

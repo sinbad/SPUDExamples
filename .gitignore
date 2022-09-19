@@ -113,3 +113,6 @@ MediaSrc/Textures/SnookerRoom/Picture Frame_dependencies/
 MediaSrc/Textures/SnookerRoom/Picture Frame (Gilded)_dependencies/
 MediaSrc/Textures/SnookerRoom/Picture and Frame (Gilded)_dependencies/
 MediaSrc/Textures/SnookerRoom/PanelledWallandDoor.resources/
+
+# Exclude UE5 project scope RiderLink
+Plugins/Developer/RiderLink/*
